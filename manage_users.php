@@ -47,6 +47,11 @@ require 'db.php';
         .edit-btn:hover { background: #217dbb; }
         .delete-btn { background: #ff3333; color: #fff; }
         .delete-btn:hover { background: #c82333; }
+        .pill-btn.edit-btn, .pill-btn.delete-btn {
+            padding: 4px 10px;
+            font-size: 0.95rem;
+            min-width: 0;
+        }
         #addUserModal { display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:1000; align-items:center; justify-content:center; }
         #addUserModal .modal-card { background:#fff; border-radius:20px; padding:36px 32px 28px 32px; max-width:440px; width:95%; box-shadow:0 8px 40px rgba(0,0,0,0.18); position:relative; }
         #addUserModal h3 { margin-top:0; color:#ff8800; font-size:1.3rem; font-weight:700; letter-spacing:0.5px; }
@@ -101,27 +106,29 @@ require 'db.php';
             <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Role</th>
                 <th>Marital Status</th>
                 <th>Date Registered</th>
                 <th>Phone Number</th>
                 <th>Address</th>
                 <th>Email</th>
-                <th>Action</th>
+                <th style="width:90px;">Action</th>
             </tr>
             <?php
-            $result = $conn->query("SELECT id, name, marital_status, created_at, phone, address, email FROM users ORDER BY id DESC");
+            $result = $conn->query("SELECT id, name, role, marital_status, created_at, phone, address, email FROM users ORDER BY id DESC");
             if ($result && $result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     $uid = htmlspecialchars($row['id']);
                     echo '<tr id="user-row-' . $uid . '">' .
                         '<td>' . $uid . '</td>' .
                         '<td class="name">' . htmlspecialchars($row['name']) . '</td>' .
+                        '<td>' . htmlspecialchars($row['role']) . '</td>' .
                         '<td class="marital_status">' . htmlspecialchars($row['marital_status']) . '</td>' .
                         '<td>' . htmlspecialchars(substr($row['created_at'], 0, 10)) . '</td>' .
                         '<td class="phone">' . htmlspecialchars($row['phone']) . '</td>' .
                         '<td class="address">' . htmlspecialchars($row['address']) . '</td>' .
                         '<td class="email">' . htmlspecialchars($row['email']) . '</td>' .
-                        '<td>' .
+                        '<td style="width:90px;">' .
                         '<button class="pill-btn edit-btn" data-id="' . $uid . '"><span data-feather="edit-2"></span>Edit</button> ' .
                         '<button class="pill-btn delete-btn" data-id="' . $uid . '"><span data-feather="trash-2"></span>Delete</button>' .
                         '</td>' .
